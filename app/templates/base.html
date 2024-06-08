@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    {% if title %}
+        <title> {{ title }} -Flask Templates</title>
+    {% else %}
+        <title>Flask Templates Demo</title>
+    {% endif %}
+</head>
+<body>
+   
+    <div class="container-fluid ">
+        <div class="row text-center">
+            <div class="col-md-4">
+                <h1><a href="{{ url_for('index')}}">Home</a></h1>
+            </div>
+            {% if current_user.is_authenticated%}
+                <div class="col-md-4">
+                    <h1><a href="{{ url_for('profile', username=current_user.username )}}">Profile</a></h1>
+                </div>
+                <div class="col-md-4">
+                    <h1><a href="{{ url_for('logout' )}}">Logout</a></h1>
+                </div>
+            {% else %}
+                <div class="col-md-4">
+                    <h1><a href="{{ url_for('login')}}">Login</a></h1>  
+                </div>
+                <div class="col-md-4">
+                    <h1><a href="{{ url_for('register')}}">Register</a></h1>
+                </div>
+            {% endif %}
+            
+            
+        </div>
+        <hr>
+
+        <!-- Start of flash messages -->
+        <div>
+            <div>
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div>
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {%endif%}
+                {%endwith%}
+
+            </div>
+        </div>
+        <!-- End of flask messages -->
+
+        <div>
+           
+           {% block content %}
+           <!-- child templates go here -->
+
+           {% endblock %}
+            
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>

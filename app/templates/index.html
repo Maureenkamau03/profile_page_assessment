@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-md-12">
+        <p>
+            Hi <span class='text-success'>{{ current_user.username }}</span>, say something:
+        </p>
+        <form action="" method="post" novalidate>
+            {{ form.hidden_tag() }}
+            <p>
+                {{ form.body.label }}<br>
+                {{ form.body(cols=100, rows=1) }}<br>
+                {% for error in form.body.errors %}
+                <span style="color: red">{{ error }}</span>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.submit() }}
+            </p>
+        </form>
+    </div>
+  </div>
+  <hr>
+
+   <!-- display all post -->
+
+   <div class="row">
+    <div class="col-md-12">
+        {% for post in posts %}
+            {% if post %}
+                <table>
+                    <tr valign="top">
+                        <td> <img style="width:50px; height:50px;" src="{{ post.author.avatar(36) }}" alt="">
+                        </td>
+                        <td>{{ post.author.username }} says: <br> {{ post.body }}</td>
+                    </tr>
+                </table>
+            {% endif %}
+        {% endfor %}
+    </div>
+  </div>
+
+
+{% endblock %}
